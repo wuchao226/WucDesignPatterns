@@ -46,6 +46,17 @@ public class Singleton {
      * val instance: Singleton by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED) { Singleton() }
      * }
      * }
+     *  companion object {
+     *         @Volatile
+     *         private var instance: SingletonKt? = null
+     *         fun getInstance(): SingletonKt {
+     *             return instance ?: synchronized(this) {
+     *                 instance ?: SingletonKt().also {
+     *                     instance = it
+     *                 }
+     *             }
+     *         }
+     *     }
      */
     // 第一层锁：保证变量可见性
     private volatile static Singleton mInstanceDoubleCheck = null;
