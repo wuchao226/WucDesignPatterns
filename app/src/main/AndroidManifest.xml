@@ -2,7 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
+        android:name=".actual_combat.BaseApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DesignPattern"
         tools:targetApi="31">
+        <activity
+            android:name=".actual_combat.observe_network_change.NetWorkActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
