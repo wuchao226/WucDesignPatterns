@@ -6,7 +6,7 @@ import android.content.Intent
 /**
  * @author: wuc
  * @date: 2024/9/9
- * @desc:
+ * @desc: 通用扩展
  */
 /**
  * openActivity<TestActivity>(context) {

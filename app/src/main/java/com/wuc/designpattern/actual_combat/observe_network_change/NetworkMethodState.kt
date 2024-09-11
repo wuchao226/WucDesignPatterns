@@ -8,7 +8,7 @@ import java.lang.reflect.Method
  * @date: 2024/9/5
  * @desc: 保存符合条件的网络监听注解的对象
  */
-data class NetworkMethodManager(
+data class NetworkMethodState(
     //参数类型
     var type: Class<*>? = null,
     //网络类型

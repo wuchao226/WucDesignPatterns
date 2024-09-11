@@ -11,6 +11,7 @@ import android.os.Build
 import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.util.Log
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 
 
@@ -20,7 +21,7 @@ import androidx.core.content.ContextCompat
  * @desc: 网络工具类
  */
 object NetWorkUtil {
-    var num: Int = 0
+    private const val TAG = "NetWorkUtil"
 
     enum class NetworkType {
         NETWORK_WIFI,
@@ -34,18 +35,14 @@ object NetWorkUtil {
     /**
      * 打开网络设置界面
      *
-     * 3.0以下打开设置界面
      */
     fun openWirelessSettings(context: Context) {
-        if (Build.VERSION.SDK_INT > 10) {
-            context.startActivity(
-                Intent(Settings.ACTION_WIRELESS_SETTINGS).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            )
+        val intent = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1) {
+            Intent(Settings.ACTION_WIRELESS_SETTINGS)
         } else {
-            context.startActivity(
-                Intent(Settings.ACTION_SETTINGS).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            )
+            Intent(Settings.ACTION_SETTINGS)
         }
+        context.startActivity(intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
 
     /**
@@ -57,9 +54,14 @@ object NetWorkUtil {
      */
     fun isConnected(context: Context?): Boolean {
         val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val network = connectivityManager.activeNetwork ?: return false
-        val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
-        return networkCapabilities != null && networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
+            networkCapabilities != null && networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        } else {
+            val networkInfo = connectivityManager.activeNetworkInfo
+            networkInfo?.isConnectedOrConnecting == true
+        }
     }
 
     /**
@@ -79,12 +81,25 @@ object NetWorkUtil {
      * @return `true`: 是<br></br>`false`: 否
      */
     fun getDataEnabled(context: Context): Boolean {
-        return try {
-            val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-            val getMobileDataEnabledMethod = tm.javaClass.getDeclaredMethod("getDataEnabled")
-            getMobileDataEnabledMethod?.invoke(tm) as Boolean
-        } catch (e: Exception) {
-            e.printStackTrace()
+        return if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE)
+            == PackageManager.PERMISSION_GRANTED) {
+            try {
+                val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    telephonyManager.isDataEnabled
+                } else {
+                    val getMobileDataEnabledMethod = telephonyManager.javaClass.getDeclaredMethod("getDataEnabled")
+                    getMobileDataEnabledMethod.invoke(telephonyManager) as Boolean
+                }
+            } catch (e: SecurityException) {
+                e.printStackTrace()
+                false
+            } catch (e: Exception) {
+                e.printStackTrace()
+                false
+            }
+        } else {
+            Log.e("NetWorkUtil", "READ_PHONE_STATE permission not granted")
             false
         }
     }
@@ -98,10 +113,15 @@ object NetWorkUtil {
      */
     fun is4G(context: Context?): Boolean {
         val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val network = connectivityManager.activeNetwork ?: return false
-        val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
-        return networkCapabilities != null && networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-                && getMobileNetworkType(context) == TelephonyManager.NETWORK_TYPE_LTE
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
+            networkCapabilities != null && networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                    && getMobileNetworkType(context) == TelephonyManager.NETWORK_TYPE_LTE
+        } else {
+            val networkInfo = connectivityManager.activeNetworkInfo
+            networkInfo?.subtype == TelephonyManager.NETWORK_TYPE_LTE
+        }
     }
 
     /**
@@ -113,7 +133,19 @@ object NetWorkUtil {
      */
     fun getWifiEnabled(context: Context): Boolean {
         val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        return wifiManager.isWifiEnabled
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            wifiManager.wifiState == WifiManager.WIFI_STATE_ENABLED
+        } else {
+            wifiManager.isWifiEnabled
+        }
+    }
+
+    /**
+     * 打开 Wi-Fi 设置
+     */
+    fun openWifiSettings(context: Context) {
+        val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
+        context.startActivity(intent)
     }
 
     /**
@@ -125,7 +157,16 @@ object NetWorkUtil {
      */
     fun setWifiEnabled(enabled: Boolean, context: Context) {
         val wifiManager = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        wifiManager.isWifiEnabled = enabled
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            // Android 10 以下版本可以直接控制Wi-Fi的启用/禁用
+            wifiManager.isWifiEnabled = enabled
+        } else {
+            // Android 10 及以上，不能直接设置Wi-Fi，需要引导用户到Wi-Fi设置页面
+            val intent = Intent(Settings.ACTION_WIFI_SETTINGS)
+            context.startActivity(intent)
+            Log.d(TAG, "Android 10及以上版本不允许直接控制Wi-Fi，请手动操作")
+            Toast.makeText(context, "Android 10及以上版本不允许直接控制Wi-Fi，请手动操作。", Toast.LENGTH_LONG).show()
+        }
     }
 
     /**
@@ -137,9 +178,14 @@ object NetWorkUtil {
      */
     fun isWifiConnected(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val network = connectivityManager.activeNetwork ?: return false
-        val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
-        return networkCapabilities != null && networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return false
+            val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
+            networkCapabilities != null && networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+        } else {
+            val networkInfo = connectivityManager.activeNetworkInfo
+            networkInfo?.type == ConnectivityManager.TYPE_WIFI
+        }
     }
 
     /**
@@ -171,28 +217,42 @@ object NetWorkUtil {
      */
     fun getNetworkType(context: Context?): NetworkType {
         val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val network = connectivityManager.activeNetwork ?: return NetworkType.NETWORK_NO
-        val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
-        if (networkCapabilities != null) {
-            when {
-                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
-                    return NetworkType.NETWORK_WIFI
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork ?: return NetworkType.NETWORK_NO
+            val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
+            if (networkCapabilities != null) {
+                when {
+                    networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> NetworkType.NETWORK_WIFI
+                    networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+                        when (getMobileNetworkType(context)) {
+                            TelephonyManager.NETWORK_TYPE_LTE -> NetworkType.NETWORK_4G
+                            TelephonyManager.NETWORK_TYPE_UMTS, TelephonyManager.NETWORK_TYPE_HSPA,
+                            TelephonyManager.NETWORK_TYPE_HSDPA, TelephonyManager.NETWORK_TYPE_HSUPA -> NetworkType.NETWORK_3G
+                            TelephonyManager.NETWORK_TYPE_GPRS, TelephonyManager.NETWORK_TYPE_EDGE -> NetworkType.NETWORK_2G
+                            else -> NetworkType.NETWORK_UNKNOWN
+                        }
+                    }
+                    else -> NetworkType.NETWORK_UNKNOWN
                 }
-
-                networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
-                    val networkType = getMobileNetworkType(context)
-                    return when (networkType) {
+            } else {
+                NetworkType.NETWORK_NO
+            }
+        } else {
+            val networkInfo = connectivityManager.activeNetworkInfo ?: return NetworkType.NETWORK_NO
+            when (networkInfo.type) {
+                ConnectivityManager.TYPE_WIFI -> NetworkType.NETWORK_WIFI
+                ConnectivityManager.TYPE_MOBILE -> {
+                    when (networkInfo.subtype) {
                         TelephonyManager.NETWORK_TYPE_LTE -> NetworkType.NETWORK_4G
                         TelephonyManager.NETWORK_TYPE_UMTS, TelephonyManager.NETWORK_TYPE_HSPA,
                         TelephonyManager.NETWORK_TYPE_HSDPA, TelephonyManager.NETWORK_TYPE_HSUPA -> NetworkType.NETWORK_3G
-
                         TelephonyManager.NETWORK_TYPE_GPRS, TelephonyManager.NETWORK_TYPE_EDGE -> NetworkType.NETWORK_2G
                         else -> NetworkType.NETWORK_UNKNOWN
                     }
                 }
+                else -> NetworkType.NETWORK_UNKNOWN
             }
         }
-        return NetworkType.NETWORK_NO
     }
 
     /**
