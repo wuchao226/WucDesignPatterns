@@ -13,6 +13,7 @@ import android.telephony.TelephonyManager
 import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.wuc.designpattern.actual_combat.observe_network_change.NetWorkMonitorManager
 
 
 /**
@@ -57,7 +58,8 @@ object NetWorkUtil {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val network = connectivityManager.activeNetwork ?: return false
             val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
-            networkCapabilities != null && networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            val hasNet = networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
+            hasNet
         } else {
             val networkInfo = connectivityManager.activeNetworkInfo
             networkInfo?.isConnectedOrConnecting == true
@@ -222,19 +224,38 @@ object NetWorkUtil {
             val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
             if (networkCapabilities != null) {
                 when {
-                    networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> NetworkType.NETWORK_WIFI
+                    networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
+                        Log.d(TAG, "networkType = ${NetworkType.NETWORK_WIFI}")
+                        NetworkType.NETWORK_WIFI
+                    }
                     networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
                         when (getMobileNetworkType(context)) {
-                            TelephonyManager.NETWORK_TYPE_LTE -> NetworkType.NETWORK_4G
+                            TelephonyManager.NETWORK_TYPE_LTE -> {
+                                Log.d(TAG, "networkType = ${NetworkType.NETWORK_4G}")
+                                NetworkType.NETWORK_4G
+                            }
                             TelephonyManager.NETWORK_TYPE_UMTS, TelephonyManager.NETWORK_TYPE_HSPA,
-                            TelephonyManager.NETWORK_TYPE_HSDPA, TelephonyManager.NETWORK_TYPE_HSUPA -> NetworkType.NETWORK_3G
-                            TelephonyManager.NETWORK_TYPE_GPRS, TelephonyManager.NETWORK_TYPE_EDGE -> NetworkType.NETWORK_2G
-                            else -> NetworkType.NETWORK_UNKNOWN
+                            TelephonyManager.NETWORK_TYPE_HSDPA, TelephonyManager.NETWORK_TYPE_HSUPA -> {
+                                Log.d(TAG, "networkType = ${NetworkType.NETWORK_3G}")
+                                NetworkType.NETWORK_3G
+                            }
+                            TelephonyManager.NETWORK_TYPE_GPRS, TelephonyManager.NETWORK_TYPE_EDGE -> {
+                                Log.d(TAG, "networkType = ${NetworkType.NETWORK_2G}")
+                                NetworkType.NETWORK_2G
+                            }
+                            else -> {
+                                Log.d(TAG, "networkType = ${NetworkType.NETWORK_UNKNOWN}")
+                                NetworkType.NETWORK_UNKNOWN
+                            }
                         }
                     }
-                    else -> NetworkType.NETWORK_UNKNOWN
+                    else -> {
+                        Log.d(TAG, "networkType = ${NetworkType.NETWORK_UNKNOWN}")
+                        NetworkType.NETWORK_UNKNOWN
+                    }
                 }
             } else {
+                Log.d(TAG, "networkType = ${NetworkType.NETWORK_NO}")
                 NetworkType.NETWORK_NO
             }
         } else {

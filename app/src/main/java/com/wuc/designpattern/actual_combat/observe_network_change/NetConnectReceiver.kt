@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.util.Log
+import com.wuc.designpattern.actual_combat.utils.NetWorkUtil
 
 /**
  * @author: wuc
@@ -12,12 +13,12 @@ import android.util.Log
  * @desc: 监听网络变换的广播
  *
  */
-class NetConnectReceiver(private val onNetworkChanged: () -> Unit) : BroadcastReceiver() {
+class NetConnectReceiver(private val onNetworkChanged: (NetWorkUtil.NetworkType) -> Unit) : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (ConnectivityManager.CONNECTIVITY_ACTION == intent.action) {
             Log.d(NetWorkMonitorManager.TAG, "Network state changed")
-            onNetworkChanged()
+            onNetworkChanged(NetWorkUtil.getNetworkType(context))
         }
     }
 }

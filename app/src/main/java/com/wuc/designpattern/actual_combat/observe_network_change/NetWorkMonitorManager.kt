@@ -53,12 +53,12 @@ object NetWorkMonitorManager {
     private fun initMonitor(application: Application) {
         mConnectivityManager = application.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager?
 
-        val networkCallback = NetConnectCallback {
-            postNetworkState()
+        val networkCallback = NetConnectCallback(application.applicationContext) {
+            postNetworkState(it)
         }
 
         val networkReceiver = NetConnectReceiver {
-            postNetworkState()
+            postNetworkState(it)
         }
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
@@ -80,8 +80,7 @@ object NetWorkMonitorManager {
         }
     }
 
-    private fun postNetworkState() {
-        val networkType = NetWorkUtil.getNetworkType(mApplication?.applicationContext)
+    private fun postNetworkState(networkType: NetWorkUtil.NetworkType) {
         val currentTimeMillis = System.currentTimeMillis()
         Log.w(TAG, "postNetworkState>> 网络状态networkType = [$networkType], lastType = [$lastType]")
         Log.w(TAG, "postNetworkState>> 是否应通知网络变化 ${shouldNotifyNetworkChange(networkType, currentTimeMillis)}")
