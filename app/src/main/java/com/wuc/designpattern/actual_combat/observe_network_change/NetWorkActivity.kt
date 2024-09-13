@@ -5,16 +5,15 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.wuc.designpattern.R
-import com.wuc.designpattern.actual_combat.AbsActivity
-import com.wuc.designpattern.actual_combat.BaseVBActivity
+import com.wuc.designpattern.actual_combat.base.activity.BaseViewBindingActivity
+import com.wuc.designpattern.actual_combat.base.activity.BaseViewBindingReflectActivity
 import com.wuc.designpattern.actual_combat.utils.NetWorkUtil
 import com.wuc.designpattern.databinding.ActivityNetWorkBinding
 
-class NetWorkActivity : BaseVBActivity<ActivityNetWorkBinding>() {
+class NetWorkActivity : BaseViewBindingReflectActivity<ActivityNetWorkBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -24,9 +23,8 @@ class NetWorkActivity : BaseVBActivity<ActivityNetWorkBinding>() {
             insets
         }
     }
+    override fun initView(savedInstanceState: Bundle?) {
 
-    override fun getViewBinding(): ActivityNetWorkBinding {
-        return ActivityNetWorkBinding.inflate(layoutInflater)
     }
 
     override fun needRegisterNetworkChangeObserver(): Boolean {
@@ -36,6 +34,6 @@ class NetWorkActivity : BaseVBActivity<ActivityNetWorkBinding>() {
     override fun onNetworkConnectionChanged(isConnected: Boolean, networkType: NetWorkUtil.NetworkType) {
         Log.d("NetWorkActivity", "onNetworkConnectionChanged, isConnected = $isConnected, networkType = ${networkType.name}")
         Toast.makeText(this, "网络状态发生了变化：当前网络类型：$networkType", Toast.LENGTH_SHORT).show()
-        binding.txtNet.text = "isConnected = $isConnected, networkType = ${networkType.name}"
+        mBinding.txtNet.text = "isConnected = $isConnected, networkType = ${networkType.name}"
     }
 }

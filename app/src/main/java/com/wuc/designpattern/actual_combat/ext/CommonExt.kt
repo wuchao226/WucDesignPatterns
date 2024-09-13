@@ -1,4 +1,4 @@
-package com.wuc.designpattern.actual_combat
+package com.wuc.designpattern.actual_combat.ext
 
 import android.content.Context
 import android.content.Intent
