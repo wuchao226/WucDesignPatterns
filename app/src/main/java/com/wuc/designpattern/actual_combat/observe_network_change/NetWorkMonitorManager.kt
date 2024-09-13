@@ -21,7 +21,7 @@ import com.wuc.designpattern.actual_combat.utils.NetWorkUtil
  * @author: wuc
  * @date: 2024/9/5
  * @desc: 监听网络变换, 需要在Application中注册 NetworkMonitorManager.init()
- * https://juejin.cn/post/7107833324059492383
+ * Android设计模式实战-观察网络变化: https://juejin.cn/post/7107833324059492383
  */
 object NetWorkMonitorManager {
     const val TAG = "NetworkMonitorManager"
