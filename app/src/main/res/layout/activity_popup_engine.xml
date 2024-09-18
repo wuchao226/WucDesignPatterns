@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".actual_combat.popup_engine.PopupEngineActivity">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnBottomPopup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="底部弹窗"
+        app:layout_constraintEnd_toStartOf="@+id/btnCenterPopup"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCenterPopup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="居中弹窗"
+        app:layout_constraintEnd_toStartOf="@+id/btnFullPopup"
+        app:layout_constraintStart_toEndOf="@+id/btnBottomPopup"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnFullPopup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="全屏弹窗"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnCenterPopup"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnFillPopup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="筛选弹窗"
+        app:layout_constraintEnd_toStartOf="@+id/btnCenterPopup"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnBottomPopup" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDropdownPopup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="下拉弹窗"
+        app:layout_constraintEnd_toStartOf="@+id/btnKeyboardPopup"
+        app:layout_constraintStart_toEndOf="@+id/btnFillPopup"
+        app:layout_constraintTop_toBottomOf="@+id/btnBottomPopup" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnKeyboardPopup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="软键盘弹窗"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnDropdownPopup"
+        app:layout_constraintTop_toBottomOf="@+id/btnBottomPopup" />
+</androidx.constraintlayout.widget.ConstraintLayout>

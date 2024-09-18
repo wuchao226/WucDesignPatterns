@@ -9,8 +9,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.wuc.designpattern.R
 import com.wuc.designpattern.actual_combat.BaseApplication
-import com.wuc.designpattern.actual_combat.BaseApplication.Companion.networkType
-import com.wuc.designpattern.actual_combat.base.activity.BaseViewBindingActivity
 import com.wuc.designpattern.actual_combat.base.activity.BaseViewBindingReflectActivity
 import com.wuc.designpattern.actual_combat.utils.NetWorkUtil
 import com.wuc.designpattern.databinding.ActivityNetWorkBinding
