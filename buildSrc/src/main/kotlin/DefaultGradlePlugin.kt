@@ -5,6 +5,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.project
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 
@@ -63,6 +64,7 @@ open class DefaultGradlePlugin : Plugin<Project> {
             plugin("kotlin-android")
             plugin("kotlin-kapt")
             plugin("org.jetbrains.kotlin.android")
+//            plugin("com.alibaba.arouter")
         }
         project.application().apply {
             compileSdk = ProjectConfig.compileSdk
@@ -166,9 +168,8 @@ open class DefaultGradlePlugin : Plugin<Project> {
                 lifecycle()
                 kotlin()
                 widgetLayout()
-                xpopup()
                 //依赖 Service 服务
-                //implementation(project(":cs-service"))
+                api(project(":cs_service"))
             }
         }
     }
@@ -234,7 +235,7 @@ open class DefaultGradlePlugin : Plugin<Project> {
 
                 if(isLibraryNeedService()) {
                     //依赖 Service 服务
-                    //implementation(project(":cs-service"))
+                    api(project(":cs_service"))
                 }
             }
         }

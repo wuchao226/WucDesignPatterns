@@ -100,9 +100,9 @@ fun DependencyHandler.imageSelector() {
 
 //弹窗
 fun DependencyHandler.xpopup() {
-    implementation(VersionThirdPart.XPopup.core)
-    implementation(VersionThirdPart.XPopup.picker)
-    implementation(VersionThirdPart.XPopup.easyAdapter)
+    api(VersionThirdPart.XPopup.core)
+    api(VersionThirdPart.XPopup.picker)
+    api(VersionThirdPart.XPopup.easyAdapter)
 }
 
 //下拉刷新

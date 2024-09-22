@@ -9,9 +9,11 @@ android {
     namespace = "com.wuc.designpattern"
 
     defaultConfig {
-        applicationId = "com.wuc.designpattern"
+        applicationId = ProjectConfig.applicationId
     }
 }
 
 dependencies {
+    //依赖子组件
+    implementation(project(":cpt_profile"))
 }
