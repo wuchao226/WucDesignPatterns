@@ -1,0 +1,11 @@
+apply from: rootProject.file('configModule.gradle')
+
+android {
+    namespace 'com.wuc.profile'
+}
+
+dependencies {
+
+    //依赖到对应组件的Api模块
+    api(project(":cpt_profile_api"))
+}

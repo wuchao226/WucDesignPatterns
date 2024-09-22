@@ -21,4 +21,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "DesignPattern"
 include(":app")
- 
+include(":cs_baselib")
+include ':cs_service'
+include ':cpt_profile'
+include ':cpt_profile_api'

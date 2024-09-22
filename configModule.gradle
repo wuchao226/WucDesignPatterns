@@ -8,5 +8,5 @@ apply from: rootProject.file('configBasic.gradle')  //重复的配置统一由�
 
 dependencies {
     //Module模块默认添加Service模块的
-//    implementation(project(":cs-service"))
+    implementation(project(":cs_service"))
 }

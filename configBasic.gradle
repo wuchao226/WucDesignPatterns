@@ -60,8 +60,6 @@ dependencies {
     implementation(libs.arouter.core)
     kapt(libs.arouter.compiler)
 
-    implementation(libs.bundles.xpopupBundles)
-
     //junit
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidJunit)

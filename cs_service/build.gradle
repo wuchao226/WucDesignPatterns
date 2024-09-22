@@ -1,0 +1,10 @@
+apply from: rootProject.file('configLib.gradle')
+
+android {
+    namespace 'com.wuc.service'
+}
+
+dependencies {
+
+    api project(":cs_baselib")
+}
