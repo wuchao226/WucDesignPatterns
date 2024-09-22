@@ -1,0 +1,7 @@
+/**
+ * 底层依赖库的gradle配置，可以依赖这个配置 再配置别的依赖
+ * （一般用于第三方的依赖库Lib基本的继承这个配置）
+ */
+apply plugin: 'com.android.library'
+
+apply from: rootProject.file('configBasic.gradle')  //重复的配置统一由基类提供

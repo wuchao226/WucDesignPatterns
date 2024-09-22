@@ -1,0 +1,51 @@
+/**
+ * 运行模块初始化gradle配置，可以依赖这个配置 再配置别的依赖
+ * 上层的配置和module_config同级别-供真正能运行的模块配置，如app组件
+ */
+apply plugin: 'com.android.application'
+apply plugin: 'com.alibaba.arouter'
+
+// 重复的配置统一由基类提供
+apply from: rootProject.file('configBasic.gradle')
+
+android {
+    defaultConfig {
+        applicationId "com.wuc.designpattern"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("${project.rootDir}/${project.store_file}")
+            storePassword project.store_password
+            keyAlias project.key_alias
+            keyPassword project.key_password
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
+     buildTypes {
+        release {
+            //默认系统混淆
+            minifyEnabled true
+            // 不显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            //是否可调试
+            debuggable false
+            //Zipalign优化
+            zipAlignEnabled true
+            //移除无用的resource文件
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            debuggable true
+        }
+    }
+}
+
+dependencies {
+    // Module模块默认添加Service模块的
+    // implementation(project(":cs-service"))
+}

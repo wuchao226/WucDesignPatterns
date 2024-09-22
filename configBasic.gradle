@@ -1,0 +1,69 @@
+/**
+ * 最基类的，公共的配置模块，（一般不直接使用），只是给别的配置文件继承使用
+ */
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'dagger.hilt.android.plugin'
+
+android {
+    compileSdk Integer.parseInt(libs.versions.compileSdk.get())
+
+    defaultConfig {
+        minSdk = Integer.parseInt(libs.versions.minSdk.get())
+        targetSdk = Integer.parseInt(libs.versions.targetSdk.get())
+        versionCode = Integer.parseInt(libs.versions.versionCode.get())
+        versionName = libs.versions.versionName.get()
+        testInstrumentationRunner = libs.versions.testInstrumentationRunner.get()
+        vectorDrawables {
+            useSupportLibrary = true
+        }
+        multiDexEnabled true
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
+    }
+    packaging {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+kapt {
+    arguments {
+         arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
+
+dependencies {
+    //基础
+    implementation(libs.bundles.appcompatBundles)
+    implementation(libs.bundles.kotlinBundles)
+    implementation(libs.bundles.widgetBundles)
+    implementation(libs.bundles.lifecycleBundles)
+    kapt(libs.lifecycle.compiler)
+
+    //Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+
+    //ARouter
+    implementation(libs.arouter.core)
+    kapt(libs.arouter.compiler)
+
+    implementation(libs.bundles.xpopupBundles)
+
+    //junit
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidJunit)
+    androidTestImplementation(libs.espresso)
+}

@@ -1,0 +1,12 @@
+/**
+ * 默认的模块初始化gradle配置，可以依赖这个配置 再配置别的依赖
+ * 上层的配置和running_config同级别-供组件化开发中的子组件依赖，如auth-component组件
+ */
+apply plugin: 'com.android.library'
+
+apply from: rootProject.file('configBasic.gradle')  //重复的配置统一由基类提供
+
+dependencies {
+    //Module模块默认添加Service模块的
+//    implementation(project(":cs-service"))
+}

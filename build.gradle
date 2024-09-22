@@ -1,0 +1,26 @@
+buildscript {
+
+    repositories {
+        maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }
+        maven { url "https://maven.aliyun.com/nexus/content/repositories/jcenter" }
+        maven { url "https://maven.aliyun.com/nexus/content/repositories/google" }
+        maven { url "https://maven.aliyun.com/nexus/content/repositories/gradle-plugin" }
+        maven { url "https://jitpack.io" }
+        google()
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath(libs.androidGradlePlugin)
+        classpath(libs.kotlin.plugin)
+        classpath(libs.hilt.plugin)
+        classpath(libs.arouter.plugin)
+    }
+
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
