@@ -3,7 +3,7 @@ package com.wuc.designpattern.actual_combat.popup_interceptor.actual
 import android.util.Log
 import com.wuc.baselib.view.FangIOSDialog
 import com.wuc.designpattern.actual_combat.popup_interceptor.BaseInterceptImpl
-import com.wuc.designpattern.actual_combat.popup_interceptor.InterceptChain
+import com.wuc.designpattern.actual_combat.popup_interceptor.PopupInterceptChain
 
 /**
  * @author: wuc
@@ -11,7 +11,7 @@ import com.wuc.designpattern.actual_combat.popup_interceptor.InterceptChain
  * @desc: 完善信息的拦截
  */
 class InterceptFillInfo(private val bean: JobInterceptBean) : BaseInterceptImpl() {
-    override fun intercept(chain: InterceptChain) {
+    override fun intercept(chain: PopupInterceptChain) {
         super.intercept(chain)
         if (!bean.isFillInfo) {
             //拦截
@@ -23,7 +23,7 @@ class InterceptFillInfo(private val bean: JobInterceptBean) : BaseInterceptImpl(
             chain.process()
         }
     }
-    private fun showDialogTips(chain: InterceptChain) {
+    private fun showDialogTips(chain: PopupInterceptChain) {
         FangIOSDialog(chain.activity).apply {
             setTitle("完善信息")
             setMessage("你没有完善信息，你要去完善信息")

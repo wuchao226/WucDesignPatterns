@@ -3,7 +3,7 @@ package com.wuc.designpattern.actual_combat.popup_interceptor.actual
 import com.wuc.baselib.ext.toast
 import com.wuc.baselib.view.FangIOSDialog
 import com.wuc.designpattern.actual_combat.popup_interceptor.BaseInterceptImpl
-import com.wuc.designpattern.actual_combat.popup_interceptor.InterceptChain
+import com.wuc.designpattern.actual_combat.popup_interceptor.PopupInterceptChain
 
 /**
  * @author: wuc
@@ -11,7 +11,7 @@ import com.wuc.designpattern.actual_combat.popup_interceptor.InterceptChain
  * @desc: 用户状态使用弹窗判断
  */
 class InterceptMemberApprove(private val bean: JobInterceptBean): BaseInterceptImpl() {
-    override fun intercept(chain: InterceptChain) {
+    override fun intercept(chain: PopupInterceptChain) {
         super.intercept(chain)
         if (!bean.isMemberApprove) {
             //拦截
@@ -21,7 +21,7 @@ class InterceptMemberApprove(private val bean: JobInterceptBean): BaseInterceptI
             chain.process()
         }
     }
-    private fun showDialogTips(chain: InterceptChain) {
+    private fun showDialogTips(chain: PopupInterceptChain) {
         FangIOSDialog(chain.activity).apply {
             setTitle("状态不对")
             setMessage("你用户状态不对，联系管理员吗？")

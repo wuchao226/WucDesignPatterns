@@ -3,7 +3,7 @@ package com.wuc.designpattern.actual_combat.popup_interceptor.actual
 import android.util.Log
 import com.wuc.baselib.view.FangIOSDialog
 import com.wuc.designpattern.actual_combat.popup_interceptor.BaseInterceptImpl
-import com.wuc.designpattern.actual_combat.popup_interceptor.InterceptChain
+import com.wuc.designpattern.actual_combat.popup_interceptor.PopupInterceptChain
 
 /**
  * @author: wuc
@@ -11,7 +11,7 @@ import com.wuc.designpattern.actual_combat.popup_interceptor.InterceptChain
  * @desc: 技能的拦截-使用弹窗判断
  */
 class InterceptSkill(private val bean: JobInterceptBean): BaseInterceptImpl() {
-    override fun intercept(chain: InterceptChain) {
+    override fun intercept(chain: PopupInterceptChain) {
         super.intercept(chain)
         if (bean.isNeedSkill) {
             //拦截
@@ -23,7 +23,7 @@ class InterceptSkill(private val bean: JobInterceptBean): BaseInterceptImpl() {
             chain.process()
         }
     }
-    private fun showDialogTips(chain: InterceptChain) {
+    private fun showDialogTips(chain: PopupInterceptChain) {
         FangIOSDialog(chain.activity).apply {
             setTitle("你没有填写技能")
             setMessage("你要去填写技能吗？")

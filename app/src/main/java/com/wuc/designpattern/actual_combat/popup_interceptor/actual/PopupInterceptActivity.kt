@@ -2,14 +2,12 @@ package com.wuc.designpattern.actual_combat.popup_interceptor.actual
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.databinding.DataBindingUtil.setContentView
 import com.wuc.baselib.base.activity.BaseViewBindingReflectActivity
 import com.wuc.baselib.utils.CommUtils
 import com.wuc.designpattern.R
-import com.wuc.designpattern.actual_combat.popup_interceptor.InterceptChain
+import com.wuc.designpattern.actual_combat.popup_interceptor.PopupInterceptChain
 import com.wuc.designpattern.databinding.ActivityPopupInterceptBinding
 
 class PopupInterceptActivity : BaseViewBindingReflectActivity<ActivityPopupInterceptBinding>() {
@@ -37,7 +35,7 @@ class PopupInterceptActivity : BaseViewBindingReflectActivity<ActivityPopupInter
     }
     //创建拦截弹窗
     private fun createIntercept(bean: JobInterceptBean) {
-        val chain = InterceptChain.create(4)
+        val chain = PopupInterceptChain.create(4)
             .attach(this@PopupInterceptActivity)
             .addInterceptor(InterceptNewMember(bean))
             .addInterceptor(InterceptFillInfo(bean))

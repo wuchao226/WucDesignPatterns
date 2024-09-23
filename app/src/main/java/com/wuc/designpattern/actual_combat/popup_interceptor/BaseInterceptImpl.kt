@@ -5,10 +5,10 @@ import androidx.annotation.CallSuper
   * @date: 2024/9/23
   * @desc: 拦截器的基类
   */
-abstract class BaseInterceptImpl: Interceptor {
-    protected var mChain : InterceptChain? = null
+abstract class BaseInterceptImpl: PopupInterceptor {
+    protected var mChain : PopupInterceptChain? = null
     @CallSuper
-    override fun intercept(chain: InterceptChain) {
+    override fun intercept(chain: PopupInterceptChain) {
         // 具体的拦截逻辑
         mChain = chain
     }
