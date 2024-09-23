@@ -8,9 +8,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.wuc.designpattern.R
-import com.wuc.designpattern.actual_combat.BaseApplication
-import com.wuc.designpattern.actual_combat.base.activity.BaseViewBindingReflectActivity
-import com.wuc.designpattern.actual_combat.utils.NetWorkUtil
+import com.wuc.baselib.base.BaseApplication
+import com.wuc.baselib.base.activity.BaseViewBindingReflectActivity
+import com.wuc.baselib.utils.NetWorkUtil
 import com.wuc.designpattern.databinding.ActivityNetWorkBinding
 
 class NetWorkActivity : BaseViewBindingReflectActivity<ActivityNetWorkBinding>() {

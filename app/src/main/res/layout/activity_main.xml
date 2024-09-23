@@ -24,4 +24,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_net" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_popup_intercept"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="弹窗拦截"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_popup" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

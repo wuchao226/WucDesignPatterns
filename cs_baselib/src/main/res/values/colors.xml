@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="divider_color">#DCDCDC</color>
+    <color name="gray">#cccccc</color>
+    <color name="normal_navigation_color">#4df1f1f1</color>
+
+    <!--  设备系统小于6.0的时候状态栏的灰色背景  -->
+    <color name="status_bar_gray_bg">#B0B0B0</color>
+    <!-- 骨架图背景颜色   -->
+    <!--    <color name="shimmer_background_color">#b1b1b1</color>-->
+    <color name="shimmer_background_color">#dedede</color>
+
+    <color name="color_translucence">#90000000</color>
+    <color name="status_bar_bg">#27000000</color>
+
+</resources>

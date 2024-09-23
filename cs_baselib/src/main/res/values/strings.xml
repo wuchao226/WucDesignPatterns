@@ -1,0 +1,64 @@
+<resources>
+    <string name="no">No</string>
+    <string name="Ok">Ok</string>
+    <string name="loading">Loading...</string>
+    <string name="uploading">UpLoading...</string>
+    <string name="error_data_parsing">Data parsing exception.</string>
+    <string name="error_network_connections">Network connection exception, please check the network.</string>
+    <string name="error_server_business">The server is on business. Please try again later.</string>
+    <string name="error_running">Error running, please try again.</string>
+    <string name="error_service_connection">No connection to the server, please try again.</string>
+    <string name="error_network_timeout">Network connection timeout.</string>
+    <string name="error_domain_name">Unable to access domain name, unknown domain name.</string>
+    <string name="error_unknown">unknown error.</string>
+    <!-- Error View -->
+    <string name="error_view_click_to_refresh">Click to Refresh</string>
+    <string name="error_view_no_data">you don\'t have any record yet</string>
+    <string name="error_view_loading">Loading…</string>
+    <string name="error_view_load_error_click_to_refresh">you don\'t have any record yet</string>
+    <string name="error_view_network_error_click_to_refresh">Network Error</string>
+    <string name="tip_network_error">Network connection error, please check the network connection</string>
+    <string name="network_alert">Network Alert</string>
+    <string name="is_goto_setting">Network connection error,Are you sure goto setting?</string>
+    <string name="setting">Setting</string>
+    <string name="cancel">Cancel</string>
+    <string name="load_more_finish">Load Success</string>
+    <string name="no_more_data">No More Data.</string>
+
+    <!--  XPermission的权限错误提示文本  -->
+    <string name="common_permission_hint">授权提示</string>
+    <string name="common_permission_message">使用此功能需要先授予权限</string>
+    <string name="common_permission_granted">授予</string>
+    <string name="common_permission_denied">取消</string>
+
+    <string name="common_permission_alert">授权提醒</string>
+    <string name="common_permission_fail_1">授权失败，请正确授予权限</string>
+    <string name="common_permission_fail_2">获取权限失败，请手动授予权限</string>
+    <string name="common_permission_fail_3">获取权限失败，请手动授予%s</string>
+    <string name="common_permission_fail_4">没有授予后台定位权限，请您选择"始终允许"</string>
+    <string name="common_permission_goto">前往授权</string>
+
+    <string name="common_permission_calendar">日历权限</string>
+    <string name="common_permission_camera">相机权限</string>
+    <string name="common_permission_contacts">通讯录权限</string>
+    <string name="common_permission_location">定位权限</string>
+    <string name="common_permission_location_background">后台定位权限</string>
+    <string name="common_permission_bluetooth">附近的设备权限</string>
+    <string name="common_permission_microphone">麦克风权限</string>
+    <string name="common_permission_phone">电话权限</string>
+    <string name="common_permission_call_log">通话记录权限</string>
+    <string name="common_permission_sensors">身体传感器权限</string>
+    <string name="common_permission_activity_recognition">健身运动权限</string>
+    <string name="common_permission_sms">短信权限</string>
+    <string name="common_permission_storage">存储权限</string>
+
+    <string name="common_permission_install">安装应用权限</string>
+    <string name="common_permission_window">悬浮窗权限</string>
+    <string name="common_permission_setting">系统设置权限</string>
+    <string name="common_permission_notification">通知栏权限</string>
+    <string name="common_permission_task">查看使用情况权限</string>
+
+    <string name="default_loading">加载中...</string>
+    <string name="base_app_exit_one_more_press">再按一次退出程序</string>
+
+</resources>

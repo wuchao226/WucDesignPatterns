@@ -7,7 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.lxj.xpopup.util.XPopupUtils
 import com.wuc.designpattern.R
-import com.wuc.designpattern.actual_combat.base.activity.BaseViewBindingReflectActivity
+import com.wuc.baselib.base.activity.BaseViewBindingReflectActivity
 import com.wuc.designpattern.actual_combat.ext.showPopup
 import com.wuc.designpattern.actual_combat.popup_engine.animation_strategy_factory.PopupAnimationType
 import com.wuc.designpattern.actual_combat.popup_engine.builder.DialogEngine

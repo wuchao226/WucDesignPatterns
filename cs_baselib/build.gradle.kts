@@ -6,7 +6,7 @@ plugins {
 apply<DefaultGradlePlugin>()
 
 android {
-    namespace = "com.android.basiclib"
+    namespace = "com.wuc.basiclib"
 }
 
 dependencies {
