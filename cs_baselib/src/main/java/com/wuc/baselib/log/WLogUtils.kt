@@ -115,8 +115,8 @@ object WLogUtils {
             if (config.includeThread()) {
                 val threadInfo = LogConfig.threadFormatter.format(Thread.currentThread())
                 appendLine("$LEFT_BORDER$threadInfo")
+                appendLine("$MIDDLE_CORNER$SINGLE_DIVIDER")
             }
-            appendLine("$MIDDLE_CORNER$SINGLE_DIVIDER")
             // 如果日志配置的堆栈深度大于 0，则获取裁剪后的堆栈信息并添加到日志内容中
             if (config.stackTraceDepth() > 0) {
                 val stackTrace = LogConfig.stackTraceFormatter.format(
@@ -131,8 +131,8 @@ object WLogUtils {
                     appendLine("$LEFT_BORDER$line")
                 }
 //                appendLine(stackTrace)
+                appendLine("$MIDDLE_CORNER$SINGLE_DIVIDER")
             }
-            appendLine("$MIDDLE_CORNER$SINGLE_DIVIDER")
             // 解析日志内容数组，并将解析后的内容添加到日志内容中
             parseBody(contents, config)?.let {
                 // 替换转义字符 "\" 为普通字符
