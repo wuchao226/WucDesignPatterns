@@ -11,15 +11,15 @@ import androidx.core.content.ContextCompat
 
 object CommUtils {
     private var mApplication: Application? = null
-    var handler: Handler? = null
+    private var _handler: Handler? = null
         private set
     var mainThreadId: Int = 0
         private set
 
-    fun init(application: Application?, handler: Handler?, mainThreadId: Int) {
+    fun init(application: Application?, handler: Handler, mainThreadId: Int) {
         mApplication = application
-        CommUtils.handler = handler
-        CommUtils.mainThreadId = mainThreadId
+        _handler = handler
+        this.mainThreadId = mainThreadId
     }
 
     //---------------------初始化Application定义的方法-----------------------------------
@@ -27,6 +27,9 @@ object CommUtils {
         get() = mApplication?.applicationContext
             ?: throw IllegalStateException("application is null. please initialize [CommUtils.init(this, Handler(Looper.getMainLooper()), android.os.Process.myTid())].")
 
+    fun getHandler(): Handler {
+        return _handler?: throw IllegalStateException("handler is null. please initialize [CommUtils.init(this, Handler(Looper.getMainLooper()), android.os.Process.myTid())].")
+    }
 
     //------------------------获取各种资源----------------------------------------
     fun getString(id: Int): String {
@@ -93,7 +96,7 @@ object CommUtils {
         if (isRunOnUIThread) {
             runnable.run()
         } else {
-            handler?.post(runnable)
+            _handler?.post(runnable)
         }
     }
 }
