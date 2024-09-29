@@ -1,0 +1,39 @@
+package com.wuc.baselib.utils
+
+import android.annotation.SuppressLint
+import android.app.Application
+import android.util.Log
+
+/**
+ * @author: wuc
+ * @date: 2024/9/29
+ * @desc:
+ * 这种方式获取全局的Application 是一种拓展思路
+ * 对于组件化项目,不可能把项目实际的Application下沉到Base,而且各个module也不需要知道Application真实名字
+ * 这种一次反射就能获取全局Application对象的方式相比于在Application#OnCreate保存一份的方式显示更加通用了
+ */
+object AppGlobals {
+    @Volatile
+    private var application: Application? = null
+
+    @SuppressLint("PrivateApi")
+    @JvmStatic
+    fun getApplication(): Application {
+        if (application == null) {
+            synchronized(this) {
+                if (application == null) {
+                    try {
+                        application = Class.forName("android.app.ActivityThread")
+                            .getMethod("currentApplication")
+                            .invoke(null) as Application
+                    } catch (ex: Exception) {
+                        Log.e("AppGlobals", "Failed to get current application instance", ex)
+                        // 更详细的异常处理
+                        throw RuntimeException("Failed to get current application instance", ex)
+                    }
+                }
+            }
+        }
+        return application ?: throw IllegalStateException("Application instance is null")
+    }
+}

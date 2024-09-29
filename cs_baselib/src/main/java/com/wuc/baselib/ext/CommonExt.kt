@@ -47,101 +47,12 @@ inline fun <reified T> openActivity(context: Context, noinline block: (Intent.()
     context.startActivity(intent)
 }
 
-val Int.ap: Int
-    get() = CommUtils.dip2px(this)
-
-fun Int.sp(): Int {
-    return CommUtils.dip2px(this)
-}
 /**
  * 全局的Context
  */
 fun Any.commContext(): Context {
-    return CommUtils.getContext()
+    return CommUtils.context
 }
-
-/** dp和px转换 **/
-fun Context.dp2px(dpValue: Float): Int {
-    return (dpValue * resources.displayMetrics.density + 0.5f).toInt()
-}
-
-fun Context.px2dp(pxValue: Float): Int {
-    return (pxValue / resources.displayMetrics.density + 0.5f).toInt()
-}
-
-fun Context.sp2px(spValue: Float): Int {
-    return (spValue * resources.displayMetrics.scaledDensity + 0.5f).toInt()
-}
-
-fun Context.px2sp(pxValue: Float): Int {
-    return (pxValue / resources.displayMetrics.scaledDensity + 0.5f).toInt()
-}
-
-fun Fragment.dp2px(dpValue: Float): Int {
-    return context!!.dp2px(dpValue)
-}
-
-fun Fragment.px2dp(pxValue: Float): Int {
-    return context!!.px2dp(pxValue)
-}
-
-fun Fragment.sp2px(dpValue: Float): Int {
-    return context!!.sp2px(dpValue)
-}
-
-fun Fragment.px2sp(pxValue: Float): Int {
-    return context!!.px2sp(pxValue)
-}
-
-
-fun View.px2dp(pxValue: Float): Int {
-    return context!!.px2dp(pxValue)
-}
-
-fun View.dp2px(dpValue: Float): Int {
-    return context!!.dp2px(dpValue)
-}
-
-fun View.sp2px(dpValue: Float): Int {
-    return context!!.sp2px(dpValue)
-}
-
-fun View.px2sp(pxValue: Float): Int {
-    return context!!.px2sp(pxValue)
-}
-
-fun RecyclerView.ViewHolder.px2dp(pxValue: Float): Int {
-    return itemView.px2dp(pxValue)
-}
-
-fun RecyclerView.ViewHolder.dp2px(dpValue: Float): Int {
-    return itemView.dp2px(dpValue)
-}
-
-fun RecyclerView.ViewHolder.sp2px(dpValue: Float): Int {
-    return itemView.sp2px(dpValue)
-}
-
-fun RecyclerView.ViewHolder.px2sp(pxValue: Float): Int {
-    return itemView.px2sp(pxValue)
-}
-
-fun ViewModel.px2dp(pxValue: Float): Int {
-    return CommUtils.getContext()!!.px2dp(pxValue)
-}
-
-fun ViewModel.dp2px(dpValue: Float): Int {
-    return CommUtils.getContext()!!.dp2px(dpValue)
-}
-
-fun ViewModel.sp2px(dpValue: Float): Int {
-    return CommUtils.getContext()!!.sp2px(dpValue)
-}
-
-fun ViewModel.px2sp(pxValue: Float): Int {
-    return CommUtils.getContext()!!.px2sp(pxValue)
-}
-
 
 /** 动态创建Drawable **/
 fun Context.createDrawable(
@@ -212,27 +123,27 @@ fun RecyclerView.ViewHolder.createDrawable(
 
 /** toast相关 **/
 fun Any.toast(msg: String?) {
-    ToastUtils.makeText(CommUtils.getContext(), msg)
+    ToastUtils.makeText(CommUtils.context, msg)
 }
 
 fun Any.toast(res: Int) {
-    ToastUtils.makeText(CommUtils.getContext(), res)
+    ToastUtils.makeText(CommUtils.context, res)
 }
 
 fun Any.toastError(msg: String?) {
-    ToastUtils.showFailText(CommUtils.getContext(), msg)
+    ToastUtils.showFailText(CommUtils.context, msg)
 }
 
 fun Any.toastError(res: Int) {
-    ToastUtils.showFailText(CommUtils.getContext(), res)
+    ToastUtils.showFailText(CommUtils.context, res)
 }
 
 fun Any.toastSuccess(msg: String?) {
-    ToastUtils.showSuccessText(CommUtils.getContext(), msg)
+    ToastUtils.showSuccessText(CommUtils.context, msg)
 }
 
 fun Any.toastSuccess(res: Int) {
-    ToastUtils.showSuccessText(CommUtils.getContext(), res)
+    ToastUtils.showSuccessText(CommUtils.context, res)
 }
 
 
@@ -283,12 +194,12 @@ fun RecyclerView.ViewHolder.windowHeight(): Int {
 /**
  * 当前网络是否有连接
  */
-fun Any.isNetworkConnected() = NetWorkUtil.isConnected(CommUtils.getContext())
+fun Any.isNetworkConnected() = NetWorkUtil.isConnected(CommUtils.context)
 
 /**
  * 当前是否是Wifi连接
  */
-fun Any.isWifiConnected() = NetWorkUtil.isWifiConnected(CommUtils.getContext())
+fun Any.isWifiConnected() = NetWorkUtil.isWifiConnected(CommUtils.context)
 
 
 /**

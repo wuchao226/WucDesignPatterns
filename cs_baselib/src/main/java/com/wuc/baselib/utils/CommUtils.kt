@@ -1,117 +1,99 @@
-package com.wuc.baselib.utils;
+package com.wuc.baselib.utils
 
-import android.app.Application;
-import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.view.View;
+import android.app.Application
+import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
+import android.os.Handler
+import android.os.Process
+import android.view.View
+import androidx.core.content.ContextCompat
 
-import androidx.core.content.ContextCompat;
+object CommUtils {
+    private var mApplication: Application? = null
+    var handler: Handler? = null
+        private set
+    var mainThreadId: Int = 0
+        private set
 
-public class CommUtils {
-
-    private static Application mApplication;
-    private static Handler mHandler;
-    private static int mMainThreadId;
-
-    public static void init(Application application, Handler handler, int mainThreadId) {
-        mApplication = application;
-        mHandler = handler;
-        mMainThreadId = mainThreadId;
+    fun init(application: Application?, handler: Handler?, mainThreadId: Int) {
+        mApplication = application
+        CommUtils.handler = handler
+        CommUtils.mainThreadId = mainThreadId
     }
 
     //---------------------初始化Application定义的方法-----------------------------------
-
-    public static Context getContext() {
-        return mApplication.getApplicationContext();
-    }
-
-    public static Handler getHandler() {
-        return mHandler;
-    }
-
-    public static int getMainThreadId() {
-        return mMainThreadId;
-    }
+    val context: Context
+        get() = mApplication?.applicationContext
+            ?: throw IllegalStateException("application is null. please initialize [CommUtils.init(this, Handler(Looper.getMainLooper()), android.os.Process.myTid())].")
 
 
     //------------------------获取各种资源----------------------------------------
-
-    public static String getString(int id) {
-        return getContext().getResources().getString(id);
+    fun getString(id: Int): String {
+        return context.resources.getString(id)
     }
 
-    public static String[] getStringArray(int id) {
-        return getContext().getResources().getStringArray(id);
+    fun getStringArray(id: Int): Array<String> {
+        return context.resources.getStringArray(id)
     }
 
-    public static int[] getIntArray(int id) {
-        return getContext().getResources().getIntArray(id);
+    fun getIntArray(id: Int): IntArray {
+        return context.resources.getIntArray(id)
     }
 
-    public static Drawable getDrawable(int id) {
-        return ContextCompat.getDrawable(getContext(), id);
+    fun getDrawable(id: Int): Drawable? {
+        return ContextCompat.getDrawable(context, id)
     }
 
-    public static int getColor(int id) {
-        return ContextCompat.getColor(getContext(), id);
+    fun getColor(id: Int): Int {
+        return ContextCompat.getColor(context, id)
     }
 
-    public static ColorStateList getColorStateList(int id) {
-        return ContextCompat.getColorStateList(getContext(), id);
+    fun getColorStateList(id: Int): ColorStateList? {
+        return ContextCompat.getColorStateList(context, id)
     }
 
-    public static int getDimens(int id) {
-        return getContext().getResources().getDimensionPixelSize(id);
+    fun getDimens(id: Int): Int {
+        return context.resources.getDimensionPixelSize(id)
     }
 
     //--------------------px和dip之间的转换-----------------------------------------------
-
-    public static int dip2px(int dip) {
-        float density = getContext().getResources().getDisplayMetrics().density;
-        return (int) (dip * density + 0.5f);
+    fun dip2px(dip: Int): Int {
+        val density = context.resources.displayMetrics.density
+        return (dip * density + 0.5f).toInt()
     }
 
-    public static float px2dip(int px) {
-        float density = getContext().getResources().getDisplayMetrics().density;
-        return px / density;
+    fun px2dip(px: Int): Float {
+        val density = context.resources.displayMetrics.density
+        return px / density
     }
 
-    public static float dip2px(float dip) {
-        float density = getContext().getResources().getDisplayMetrics().density;
-        return (dip * density + 0.5f);
+    fun dip2px(dip: Float): Float {
+        val density = context.resources.displayMetrics.density
+        return (dip * density + 0.5f)
     }
 
-    public static float px2dip(float px) {
-        float density = getContext().getResources().getDisplayMetrics().density;
-        return px / density;
+    fun px2dip(px: Float): Float {
+        val density = context.resources.displayMetrics.density
+        return px / density
     }
 
 
     //-------------------加载布局文件-------------------------------------------------
-
-    public static View inflate(int id) {
-        return View.inflate(getContext(), id, null);
+    fun inflate(id: Int): View {
+        return View.inflate(context, id, null)
     }
 
     //-------------------是否运行在主线程 -----------------------------------------------
-
-    public static boolean isRunOnUIThread() {
-        int myTid = android.os.Process.myTid();
-        if (myTid == getMainThreadId()) {
-            return true;
-        }
-        return false;
-    }
+    val isRunOnUIThread: Boolean
+        get() = Process.myTid() == mainThreadId
 
     //运行在主线程
-    public static void runOnUIThread(Runnable runnable) {
-        if (isRunOnUIThread()) {
-            runnable.run();
+    fun runOnUIThread(runnable: Runnable) {
+        if (isRunOnUIThread) {
+            runnable.run()
         } else {
-            getHandler().post(runnable);
+            handler?.post(runnable)
         }
     }
-
 }
